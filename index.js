@@ -1,4 +1,12 @@
 const readline = require('readline');
+const fs = require('fs');
+const path = require('path');
+const library_file = path.join(__dirname, 'library.json');
+const borrowedBooks_file = path.join(__dirname, 'borrowedBooks.json');
+
+
+let library = JSON.parse(fs.readFileSync(library_file, 'utf8'));
+let borrowedBooks = JSON.parse(fs.readFileSync(borrowedBooks_file, 'utf8'));
 
 const rl = readline.createInterface({
     input: process.stdin, 
@@ -13,19 +21,54 @@ class Book {
     }
 }
 
-let library = [
-    new Book("Book_1", "Auther_1", 3),
-    new Book("Book_2", "Author_2", 5),
-    new Book("Book_3", "AUthor_3", 2)
-];
+const saveToLibrary = () => {
+    fs.writeFileSync(library_file, JSON.stringify(library, null, 2), 'utf8');
+};
 
-let borrowedBooks={}
+const saveToBorrowed = () => {
+    fs.writeFileSync(borrowedBooks_file, JSON.stringify(borrowedBooks, null, 2), 'utf8');
+};
 
 function listBooks() {
     console.log("Here is the list of all available books:");
     library.forEach((book, index) => {
         console.log(`${index + 1}. Title: ${book.title}, Author: ${book.author}, Quantity: ${book.quantity}`);
     });
+}
+
+function borrowBook(title)
+{
+    // check if the book is available
+    const book = library.find(book => book.title.toLowerCase() === title.toLowerCase());
+    // if book is available (quantity>0)
+    if (book && book.quantity > 0) {
+        book.quantity--;
+        borrowedBooks[title] = (borrowedBooks[title] || 0) + 1;
+        console.log(`You have borrowed "${title}".`);
+        saveToLibrary()
+        saveToBorrowed()
+    } else {
+        console.log("Book is not available.");
+    }
+    setTimeout(mainMenu, 1000); 
+}
+
+function returnBook(title)
+{
+    // check if the book is borrowed which the user want to return
+    if (borrowedBooks[title] > 0) {
+        const book = library.find(book => book.title.toLowerCase() === title.toLowerCase());
+        if (book) {
+            book.quantity++;
+            borrowedBooks[title]--;
+            console.log(`You have returned "${title}".`);
+            saveToLibrary();
+            saveToBorrowed();
+        }
+    } else {
+        console.log("You haven't borrowed this book.");
+    }
+    setTimeout(mainMenu, 1000); 
 }
 
 function listOfBorrowedBooks() {
@@ -43,36 +86,6 @@ function listOfBorrowedBooks() {
     }
 }
 
-function borrowBook(title)
-{
-    // check if the book is available
-    const book = library.find(book => book.title.toLowerCase() === title.toLowerCase());
-    // if book is available (quantity>0)
-    if (book && book.quantity > 0) {
-        book.quantity--;
-        borrowedBooks[title] = (borrowedBooks[title] || 0) + 1;
-        console.log(`You have borrowed "${title}".`);
-    } else {
-        console.log("Book is not available.");
-    }
-    setTimeout(mainMenu, 1000); 
-}
-
-function returnBook(title)
-{
-    // check if the book is borrowed which the user want to return
-    if (borrowedBooks[title] > 0) {
-        const book = library.find(book => book.title.toLowerCase() === title.toLowerCase());
-        if (book) {
-            book.quantity++;
-            borrowedBooks[title]--;
-            console.log(`You have returned "${title}".`);
-        }
-    } else {
-        console.log("You haven't borrowed this book.");
-    }
-    setTimeout(mainMenu, 1000); 
-}
 
 
 function mainMenu() {
