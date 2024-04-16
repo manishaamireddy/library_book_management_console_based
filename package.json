@@ -1,0 +1,23 @@
+{
+  "name": "library_book_management_console_based",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manishaamireddy/library_book_management_console_based.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/manishaamireddy/library_book_management_console_based/issues"
+  },
+  "homepage": "https://github.com/manishaamireddy/library_book_management_console_based#readme",
+  "dependencies": {
+    "readline": "^1.3.0"
+  }
+}
