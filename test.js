@@ -17,7 +17,7 @@ describe('Library Management System Tests', () => {
         jest.clearAllTimers(); 
     });
 
-    test('listBooks should print all available books', () => {
+    test('listBooks should print all available books in the library', () => {
         console.log = jest.fn();
         listBooks();
         expect(console.log).toHaveBeenCalledWith("Here is the list of all available books:");
@@ -27,14 +27,23 @@ describe('Library Management System Tests', () => {
         expect(console.log).toHaveBeenCalledWith("\n");
     });
 
-    test('borrowBook should decrease the quantity of a book when borrowed', () => {
+    test('borrowBook should allwo user to borrow book if available decrease the quantity of a book when borrowed', () => {
         borrowBook('user1', 'Book_1');
         jest.runAllTimers();
         expect(library.find(book => book.title === 'Book_1').quantity).toBe(2);
         expect(borrowedBooks['user1']['Book_1']).toBe(1);
     });
+    
+      test('borrowBook does not allow a book to be borrowed if unavailable', () => {
+        borrowBook('user2', 'Book_1');
+        borrowBook('user2', 'Book_1');
+        borrowBook('user2', 'Book_1'); //no copies available now
+        borrowBook('user2', 'Book_1');
+        expect(console.log).toHaveBeenCalledWith("Book is not available.\n");
+        jest.runAllTimers();
+      });    
 
-    test('returnBook should increase the quantity of a book when returned', () => {
+    test('returnBook should allow user to return book only if he borrowed thus increase the quantity of a book when returned', () => {
         borrowBook('user1', 'Book_1'); 
         returnBook('user1', 'Book_1'); 
         jest.runAllTimers(); 
@@ -70,6 +79,12 @@ describe('Library Management System Tests', () => {
         expect(console.log).toHaveBeenCalledWith("Title: Book_3, Total Quantity borrowed: 1\n");
     });
 
+    test('listOfBorrowedBooks displays the correct message for a user without borrowed books', () => {
+        console.log = jest.fn(); 
+        listOfBorrowedBooks('user1');
+        expect(console.log).toHaveBeenCalledWith("No books borrowed at this moment by User user1\n");
+      });
+    
     
     test('should print the correct search results when books are found', () => {
         console.log = jest.fn(); 
@@ -78,7 +93,7 @@ describe('Library Management System Tests', () => {
         expect(console.log).toHaveBeenCalledWith("1. Title: Book_1, Author: Author_1, Quantity: 3");
       });
     
-      test('should print a message when no books are found', () => {
+      test('should print a correct message when no books are found', () => {
         console.log = jest.fn(); 
         searchBook('Nonexistent Book', 'user1');
         expect(console.log).toHaveBeenCalledWith("No books found matching the search criteria.\n");
