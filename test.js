@@ -34,14 +34,18 @@ describe('Library Management System Tests', () => {
         expect(borrowedBooks['user1']['Book_1']).toBe(1);
     });
     
-      test('borrowBook does not allow a book to be borrowed if unavailable', () => {
-        borrowBook('user2', 'Book_1');
-        borrowBook('user2', 'Book_1');
-        borrowBook('user2', 'Book_1'); //no copies available now
-        borrowBook('user2', 'Book_1');
-        expect(console.log).toHaveBeenCalledWith("Book is not available.\n");
+    test('borrowBook does not allow a book to be borrowed if unavailable due to previous borrows', () => {
+        const userId = 'user2';
+        const bookTitle = 'Book_1';
+        // User 'user3' borrows all Book_1 copies
+        borrowBook('user3', bookTitle);
+        borrowBook('user3', bookTitle);
+        borrowBook('user3', bookTitle); // No copies left now
+        borrowBook(userId, bookTitle);
         jest.runAllTimers();
-      });    
+        expect(console.log).toHaveBeenCalledWith(`This book is already borrowed by other users i.e user3 and no copies left now\n`);
+      });
+       
 
     test('returnBook should allow user to return book only if he borrowed thus increase the quantity of a book when returned', () => {
         borrowBook('user1', 'Book_1'); 

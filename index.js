@@ -47,7 +47,13 @@ function borrowBook(userId, title) {
         borrowedBooks[userId][title]++;
         console.log(`User ${userId} has borrowed "${title}".\n`);
     } else {
-        console.log("Book is not available.\n");
+        if(book && book.quantity == 0)
+        {
+            let otherUserWhoBorrowed = Object.keys(borrowedBooks).filter(key => Object.keys(borrowedBooks[key]).some(book => book.toLowerCase() === title.toLowerCase()));
+            console.log(`This book is already borrowed by other users i.e ${otherUserWhoBorrowed} and no copies left now\n`)
+        }
+        else
+            console.log("Book is not available in the library.\n");
     }
     setTimeout(() => mainMenu(userId), 1000);
 }
