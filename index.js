@@ -140,7 +140,7 @@ function searchBook(query, userId) {
 
 
 function mainMenu(userId) {
-    rl.question("Choose an option from 1-6 \n1: List books \n2: Borrow a book \n3: Return a book \n4: Show borrowed books \n5: Search for a book by author or title \n6: Log out of the system \n7: Exit\n", function (choice) {
+    rl.question("Choose an option from 1-6 \n1: List books \n2: Borrow a book \n3: Return a book \n4: Show borrowed books \n5: Search for a book by author or title \n6: Log out current user from the system \n7: Exit\n", function (choice) {
         switch (choice) {
             case '1':
                 listBooks();
