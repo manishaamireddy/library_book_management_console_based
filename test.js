@@ -51,7 +51,7 @@ describe('Library Management System Tests', () => {
         expect(borrowedBooks['user1']['Book_1']).toBeUndefined();
     });
 
-    test('should print no borrowed books for a user with no books', () => {
+    test('listOfBorrowedBooks should print no borrowed books for a user with no books', () => {
         const userId = 'user1';
         console.log = jest.fn(); 
         listOfBorrowedBooks(userId);
@@ -59,7 +59,7 @@ describe('Library Management System Tests', () => {
         expect(console.log).toHaveBeenCalledWith("No books borrowed at this moment by User user1\n");
     });
 
-    test('should print all books borrowed by a specific user', () => {
+    test('listOfBorrowedBooks should print all books borrowed by a specific user', () => {
         const userId = 'user2';
         borrowedBooks[userId] = { 'Book_1': 1, 'Book_2': 2 }; 
         console.log = jest.fn(); 
@@ -69,7 +69,7 @@ describe('Library Management System Tests', () => {
         expect(console.log).toHaveBeenCalledWith("Title: Book_2, Quantity borrowed: 2\n");
     });
 
-    test('should print all borrowed books across all users when no userId is provided', () => {
+    test('listOfBorrowedBooks should print all borrowed books across all users when no userId is provided', () => {
         borrowedBooks['user3'] = { 'Book_1': 1 };
         borrowedBooks['user4'] = { 'Book_1': 2, 'Book_3': 1 }; 
         console.log = jest.fn(); 
@@ -86,14 +86,14 @@ describe('Library Management System Tests', () => {
       });
     
     
-    test('should print the correct search results when books are found', () => {
+    test('searchBook should print the correct search results when books are found', () => {
         console.log = jest.fn(); 
         searchBook('Book_1', 'user1');
         expect(console.log).toHaveBeenCalledWith("Search results:");
         expect(console.log).toHaveBeenCalledWith("1. Title: Book_1, Author: Author_1, Quantity: 3");
       });
     
-      test('should print a correct message when no books are found', () => {
+      test('searchBook should print a correct message when no books are found', () => {
         console.log = jest.fn(); 
         searchBook('Nonexistent Book', 'user1');
         expect(console.log).toHaveBeenCalledWith("No books found matching the search criteria.\n");
