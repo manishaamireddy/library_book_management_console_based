@@ -3,6 +3,7 @@
 This is a console based Library Book Management System designed to efficiently manage a local library's inventory. Users can interact through a simple console interface, allowing them to perform various tasks such as viewing available books, borrowing, returning, searching for books, and checking their borrowed books.Several users can access the system within a single session.
 
 ### How to run
+Node version used v16.20.1
 1. Clone `git clone <repository_url>`
 2. Project directory: `cd library_book_management_console_based`
 3. Install dependencies: `npm install`
@@ -26,6 +27,7 @@ Upon entering the user ID, the menu will be displayed, allowing the user to make
 7. Exit the system
 
 Unless the user chooses to exit the system after completing certain actions, the menu will reappear, allowing them to perform further actions or enabling a new user to use the system.
+
 
 
 
