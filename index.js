@@ -22,6 +22,7 @@ let library = [
 
 let borrowedBooks = {}
 
+// View the list of available books
 function listBooks() {
     console.log("Here is the list of all available books:");
     library.forEach((book, index) => {
@@ -30,6 +31,7 @@ function listBooks() {
     console.log("\n")
 }
 
+// Borrow a book
 function borrowBook(userId, title) {
     const book = library.find(book => book.title.toLowerCase() === title.toLowerCase());
     // if book is available (quantity>0)
@@ -50,6 +52,7 @@ function borrowBook(userId, title) {
     setTimeout(() => mainMenu(userId), 1000);
 }
 
+// Return a book
 function returnBook(userId, title) {
     // check if the book is borrowed which the user want to return
     if (borrowedBooks[userId] && borrowedBooks[userId][title] > 0) {
@@ -71,6 +74,7 @@ function returnBook(userId, title) {
     setTimeout(() => mainMenu(userId), 1000); 
 }
 
+// Display borrowed books
 function listOfBorrowedBooks(userId = null) {
     if (userId) {
         // Display books for a specific user
@@ -111,7 +115,7 @@ function listOfBorrowedBooks(userId = null) {
     }
 }
 
-
+// search books
 function searchBook(query, userId) {
     const searchResults = library.filter(book => {
         // Check if the query matches the book's title or author 
